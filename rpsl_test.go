@@ -34,8 +34,8 @@ func TestParse(t *testing.T) {
 
 	is.True(dom.Get("mntner").Text() == "")
 
-	is.Equal(dom.Get("mntner").Default("default"), "default")
-	is.Equal(dom.GetAll("mntner").Default("default"), "default")
+	is.Equal(dom.Get("mntner").DefaultText("default"), "default")
+	is.Equal(dom.GetAll("mntner").DefaultText("default"), "default")
 
 	is.Equal(dom.Schema(), "person")
 
@@ -80,16 +80,16 @@ func TestParse(t *testing.T) {
 	is.Equal(empty.Name(), "value")
 	is.Equal(empty.Schema(), "empty")
 	is.Equal(empty.Primary(), "empty")
-	is.Equal(empty.Get("foo").Default("baz"), "baz")
-	is.Equal(empty.GetAll("foo").Default("baz"), "baz")
+	is.Equal(empty.Get("foo").DefaultText("baz"), "baz")
+	is.Equal(empty.GetAll("foo").DefaultText("baz"), "baz")
 
 	empty.Add("foo", "bar")
 	empty.Add("other", "one", "two # comment two", "three  #comment three ")
 	empty.Add("none")
 	empty.Add("something-very-long-past-19")
 
-	is.Equal(empty.Get("foo").Default("baz"), "bar")
-	is.Equal(empty.GetAll("foo").Default("baz"), "bar")
+	is.Equal(empty.Get("foo").DefaultText("baz"), "bar")
+	is.Equal(empty.GetAll("foo").DefaultText("baz"), "bar")
 
 	emptyString := cleanDoc(txtFooObject2)
 
@@ -248,9 +248,9 @@ func TestSet(t *testing.T) {
 	is.True(!s.Has("four"))
 	s.Add("four")
 	is.True(s.Has("four"))
-	s.Del("four")
+	s.Delete("four")
 	is.True(!s.Has("four"))
-	s.Del("four")
+	s.Delete("four")
 	is.True(!s.Has("four"))
 
 	is.Equal(s.String(), "one,three,two")
@@ -293,7 +293,8 @@ func TestAttribute(t *testing.T) {
 
 	attr = o.Get("missing")
 	is.True(attr == nil)
-	is.Equal(attr.Default("default"), "default")
+	is.Equal(attr.DefaultText("default"), "default")
+	is.Equal(attr.Default(rpsl.NewAttribute("", "default")).Text(), "default")
 
 	schema, err := rpsl.ParseSchemas(
 		rpsl.ListObject{
