@@ -78,12 +78,13 @@ fi
 PASS=$(head  -c 40 /dev/urandom);
 CHK=$(echo   -s $PASS | openssl dgst -sha256 -binary | openssl dgst -ripemd160 -binary | base64 | tr '/+' '_-' | tr -d '=')
 PASS=$(echo  -s $PASS | openssl dgst -sha256 -binary | base64 | tr '/+' '_-' | tr -d '=')
-HASH=$((echo -e "exp:\t${TS}\nchk:\t${PASTE_LANG}\nlang:\t${PASTE_LANG}"; \
+(echo -e "exp:\t${TS}\nchk:\t${PASTE_LANG}\nlang:\t${PASTE_LANG}"; \
         [ "$PASTE_BURN" -eq "1" ] && echo -e "burn:\ttrue"; \
         [ "$PASTE_GZIP" -eq "1" ] && echo -e "zip:\ttrue"; \
         echo; \
-        cat "$PASTE_FILE" | $GZBIN | openssl aes-256-cbc -md md5 -e -a -k "$PASS") | \
-        http POST "${PASTE_URL}/paste")
+        cat "$PASTE_FILE" | $GZBIN | openssl aes-256-cbc -md md5 -e -a -k "$PASS") | tee sent.txt
+
+HASH=$(cat sent.txt | http POST "${PASTE_URL}/paste")
 
 HASH_OK=$(echo "$HASH" | cut -c1-2)
 
