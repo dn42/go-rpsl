@@ -38,7 +38,7 @@ elif ((PCT <= 90)); then
 	pct="$PCT%25"
 fi
 
-http --form PUT "https://paste.dn42.us/s/cover.${ID}.badge" \
+http --ignore-stdin --form PUT "https://paste.dn42.us/s/cover.${ID}.badge" \
   url="https://img.shields.io/badge/Coverage-${pct}-${color}?style=for-the-badge&logo=go" \
   secret="$SECRET"
 
@@ -91,7 +91,7 @@ if [ "$HASH_OK" = "OK" ]; then
   HASH=$(echo $HASH | cut -f2 -d' ')
   URL="${PASTE_URL}/#/${HASH}!${PASS}"
 
-  http --form PUT "https://paste.dn42.us/s/cover.${ID}.report" \
+  http --ignore-stdin --form PUT "https://paste.dn42.us/s/cover.${ID}.report" \
     url="$URL" \
     secret="$SECRET"
 
