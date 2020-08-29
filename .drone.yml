@@ -1,0 +1,19 @@
+---
+kind: pipeline
+type: docker
+name: default
+
+steps:
+- name: Test
+  image: golang:1.15-alpine
+  commands:
+  - make test
+
+- name: Report
+  image: xuu0/alpine_jq_httpie
+  environment:
+    SECRET:
+      from_secret: secret
+  commands:
+  - make report
+...

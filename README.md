@@ -1,5 +1,7 @@
 # RPSL Spec DRAFT
 
+[![Build Status](https://drone.git.dn42/api/badges/registry/go-rpsl/status.svg)](https://drone.git.dn42/registry/go-rpsl)
+
 [![Coverage Report](https://paste.dn42.us/s/cover.registry.go-rpsl.badge)](https://paste.dn42.us/s/cover.registry.go-rpsl.report)
 
 ```go
