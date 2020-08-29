@@ -1,7 +1,5 @@
 -include secret.inc
 
-ID=registry-go-rpsl-coverage
-
 test:
 	go vet ./...
 	go test -race -cover -coverprofile=c.out -covermode atomic ./...

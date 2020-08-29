@@ -7,7 +7,9 @@ steps:
 - name: Test
   image: golang:1.15-alpine
   commands:
-  - make test
+  - go vet ./...
+  - go test -race -cover -coverprofile=c.out -covermode atomic ./...
+  - go tool cover -func=c.out | tee func.txt
 
 - name: Report
   image: xuu0/alpine_jq_httpie
@@ -15,5 +17,5 @@ steps:
     SECRET:
       from_secret: secret
   commands:
-  - make report
+  -	./coverage.sh func.txt
 ...
