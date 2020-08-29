@@ -53,16 +53,20 @@ PASTE_FILE=report.txt
 PASTE_FILE=${PASTE_FILE-/dev/stdin}
 PASTE_URL=${PASTE_URL-"https://paste.dn42.us"}
 PASTE_BURN=${PASTE_BURN-0}
-PASTE_DATE=${PASTE_DATE-"next-week"}
+PASTE_DATE=${PASTE_DATE-""}
 PASTE_GZIP=${PASTE_GZIP-1}
 PASTE_LANG=${PASTE_LANG-text}
 GZBIN="cat"
 [ "$PASTE_GZIP" -eq "1" ] && GZBIN="gzip -c"
 
-if [[ "$OSTYPE" == "linux-gnu"* ]]; then
+OS=$(uname)
+case $OS in
+  'Linux')
+    OS='Linux'
     TS="$(date +%s -d ${PASTE_DATE})"
-
-elif [[ "$OSTYPE" == "darwin"* ]]; then
+    ;;
+  'Darwin')
+    OS='Mac'
     if [[ "$PASTE_DATE" = "next-year" ]]; then
         PASTE_DATE="+1y"
     elif [[ "$PASTE_DATE" = "next-month" ]]; then
@@ -72,8 +76,8 @@ elif [[ "$OSTYPE" == "darwin"* ]]; then
     fi
 
     TS="$(date -v ${PASTE_DATE} +%s)"
-fi
-
+    ;;
+esac
 
 PASS=$(head  -c 40 /dev/urandom);
 CHK=$(echo   -s $PASS | openssl dgst -sha256 -binary | openssl dgst -ripemd160 -binary | base64 | tr '/+' '_-' | tr -d '=')
