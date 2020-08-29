@@ -48,12 +48,12 @@ cat "$REPORT" >> report.txt
 echo '```' >> report.txt
 PASTE_LANG="markdown"
 PASTE_FILE=report.txt
-
+PASTE_DATE=next-month
 
 PASTE_FILE=${PASTE_FILE-/dev/stdin}
 PASTE_URL=${PASTE_URL-"https://paste.dn42.us"}
 PASTE_BURN=${PASTE_BURN-0}
-PASTE_DATE=${PASTE_DATE-""}
+PASTE_DATE=${PASTE_DATE-"next-week"}
 PASTE_GZIP=${PASTE_GZIP-1}
 PASTE_LANG=${PASTE_LANG-text}
 GZBIN="cat"
@@ -72,7 +72,7 @@ case $OS in
     elif [[ "$PASTE_DATE" = "next-month" ]]; then
         PASTE_DATE="+1m"
     elif [[ "$PASTE_DATE" = "next-week" ]]; then
-        PASTE_DATE="+1m"
+        PASTE_DATE="+1w"
     fi
 
     TS="$(date -v ${PASTE_DATE} +%s)"
