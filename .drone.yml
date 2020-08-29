@@ -17,5 +17,5 @@ steps:
     SECRET:
       from_secret: secret
   commands:
-  -	./coverage.sh func.txt
+  - ./coverage.sh func.txt
 ...
